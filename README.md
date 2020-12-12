@@ -9,4 +9,4 @@ This is a work in progress repo.
 
 Suggestions and contributions (pull request) are welcome
 
-David Girard, Sr Product Manager Trend Micro XDR
+David Girard Trend Micro XDR

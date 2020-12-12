@@ -1,7 +1,7 @@
 # TMHunting
-## Trend Micro XDR/Vision One Hunting Recipies
+## Trend Micro XDR/Vision One Hunting Recipes
 
-Unofficial Repository for Trend Micro XDR / Vision One Hunting Recipies
+Unofficial Repository for Trend Micro XDR / Vision One Hunting Recipes
 
 This is a great place to learn how to use different features to help you hunt.
 

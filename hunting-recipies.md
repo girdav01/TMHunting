@@ -96,4 +96,62 @@ logonUser:davidg AND winEventId:4624
 
 Explanation : in some cases we gather Windows Event logs that do not duplicate our Activity Data. Logon event 4624 is such an example. in the first one you would get all logon events in your entire deployment (oups!). In the second you would get all the logon events on your your-endpoint-name and in the 3rd example you get all logon events for davidg on any machine which is nice if you know that davidg is potentially compromised.
 
+## Example 13: Searching for activity data with winEventId field not empty
+Search method : General or Endpoint Activity Data
 
+eventId:"10"
+
+Explanation : eventId 10 is TELEMETRY_WINDOWS_EVENT. this is easier and faster than checking for winEventId NOT empty.
+
+## Example 14: Searching for a URL in all data lakes. Or see if a Spear Phishing email with a URL was also detected by Network or EndPoint
+Search method : General
+
+URL:ca75-1.winshipway.com
+
+URL:"https://ca75-1.winshipway.com"
+
+URL:"https://*.winshipway.com"
+
+Explanation : searching for specific might not return hits so I got more hits searching without prefix and suffix. 2nd example will search for the exact URL and the 3rd one will use wild card. You can specify Wild card almost anywhere.
+
+## Example 15 : Searching if the legitimate tool was installed.  
+Search method: General
+
+FileFullPath:rclone.exe OR URL:(downloads.rclone.org OR "https://github.com/rclone/*")
+
+Explanation: rclone is a legitimate tool to backup files in multiple cloud storage services (or local network systems) and could be use to exfiltrate data. Modify to cover the Mac or Linux versions. process is rclone.exe on windows so we look for FileFullPath (but we only give exe name using partial search) or we look for download of the installation package. You can use similar techniques to hunt for other tools or software.
+
+## Example 16: Hunting for connections outside your network with EndPoint Activity Data
+Search Method : EndPoint Activity Data
+
+eventId: 3 AND NOT (dst:10. OR dst:192. OR dst:224.0.0. OR dst:"::1" OR dst:127.0.0.1 OR dst:"::" OR dst:0.0.0.0 )
+
+Explanation : eventId 3 is TELEMETRY_CONNECTION and we exclude internal destinations on 10, 192, 224, 127, 0... addresses
+
+## Example 17 : Hunting for C2, 3rd party Firewall or Threat Intelligence tell you to search for a C2 call back to 44.233.47.30 on port 443
+Search method : General or EndPoint Activity Data 
+
+dst:"44.233.47.30" AND dpt:443
+
+Explanation : Exact search on destination (dst field) and on destination port (dpt field). If you get a hit, you then get the endpoint names, process, users impacted.
+
+## Example 18 : Searching a hash
+Search Method : General, Email, EndPoint and Network Activity
+
+file_sha1:"5e7677272b112b90777900f5dd8bad5bd8152002"
+
+Explanation : No partial search on a one way hash for obvious reasons. FileMD5, FileSHA2, FileSHA1 field names in General.file_sha1 in the above example could be in email or Network. Network also have a file_sha256 field.
+
+## Example 19 : Search for email attachment extensions. Office files for examples
+Search method : Email Activity Data
+
+file_extension:("docx" OR "xlsx OR "pptx")
+
+Explanation : if a threat come through email attachment of a certain type, just hunt for these file extensions. the example above should include more extensions, just complete it if you need to search for Office files.
+
+## Example 20 : Hunt for new registry entry under run key
+Search method : General
+
+objectRegistryKeyHandle:"hklm\\software\\microsoft\\windows\\currentversion\\run*" AND eventSubId:402
+
+Explanation: look for new registry values under the run key. eventSubId 402 is TELEMETRY_REGISTRY_SET 

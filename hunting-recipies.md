@@ -24,4 +24,25 @@ NOT request:"" AND processFilePath:powershell
 
 Explanation : You are looking a web request that is not empty and process file is powershell. Again you take advantage of partial search.
 
+## Example 4 : Searching for a MITRE ATT&CK Technique or Sub Techniques
+Search method : General but could be other methods as well
 
+tags:T1105
+
+Explanation : just enter the technique or sub-technique number after tags. Tags field is filled with MITRE filters and XDR SAE filters
+
+## Example 5: Searching for Scripting Usage with MITRE Techniques
+Search method : General
+
+tags:(T1059 OR T1064)
+
+Explanation : instead of looking for powershell, windows scripting host and others, just take advange of XDR MITRE filters. in this case these 2 techniques involve scripting. This is TTP base hunting made easy.
+
+## Example 6 : Query for exploits (CVE's)
+Search method : Detections
+
+ruleName:CVE-2019-0708
+
+ruleName:CVE-2
+
+Explanation: the first one will search for a specific CVE number, the second one will look for any CVE since year 2000. Both use partia search. Both network and file based exploits with generate detections and the CVE number is in the ruleName field.

@@ -60,9 +60,9 @@ Reference : https://car.mitre.org/analytics/CAR-2020-11-006/
 
 Search method : General
 
-ProcessName:net.exe AND CLICommand:(user OR localgroup OR group OR ADPrincipalGroupMembership)
+processName:net.exe AND CLICommand:(user OR localgroup OR group OR ADPrincipalGroupMembership)
 
-Explanation : You want to hunt on this MITRE analytics and you just read their query example and convert into search API syntax. Since it use the net.exe tool, you look for ProcessName:net.exe and command lime with CLICommand equal some of the commands that were enumerated in MITRE Analytics. we take advantage of partial search.
+Explanation : You want to hunt on this MITRE analytics and you just read their query example and convert into search API syntax. Since it use the net.exe tool, you look for processName:net.exe and command line with CLICommand equal some of the commands that were enumerated in MITRE Analytics. we take advantage of partial search.
 
 ## Exemple 9 : Hunting for MS Office process that calls cmd.exe
 Search method : Endpoint activity data

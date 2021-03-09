@@ -155,3 +155,75 @@ Search method : General
 objectRegistryKeyHandle:"hklm\\software\\microsoft\\windows\\currentversion\\run*" AND eventSubId:402
 
 Explanation: look for new registry values under the run key. eventSubId 402 is TELEMETRY_REGISTRY_SET 
+
+# The next examples where used to hunt for the HAFNIUM campaign targeting Microsoft Exchange servers
+
+Reference :  https://success.trendmicro.com/solution/000285882
+
+Note: with all searches in this section you can narrow your searches by specifying your exchange servers like this :
+You query AND endpointHostName:myExchangeServer
+or 
+You query AND endpointHostName:(myExchangeServer1 OR server2 OR server3)
+
+## Example 21: HAFNIUM :  Looking for child processes of c:\windows\system32\inetsrv\w3wp.exe  (any or cmd.exe in particular)
+Search Method : EndPoint Activity Data
+
+processFilePath:"c:\\windows\\system32\\inetsrv\\w3wp.exe" AND objectFilePath:*
+
+processFilePath:"c:\\windows\\system32\\inetsrv\\w3wp.exe" AND objectFilePath:cmd.exe
+
+Explanation : the 1st query look for the exact process that get compromised which will new processes (in this case any *). The 2nd query is similar but it look specifically for cmd.exe which has been reported in intelligence reports. 
+
+## Example 22: HAFNIUM : Files written to the system by w3wp.exe or UMWorkerProcess.exe
+Search Method : EndPoint Activity Data
+
+parentFilePath:(w3wp.exe OR UMWorkerProcess.exe) AND eventSubId: 101
+
+Note : eventSubId 101 is file creation
+
+## Example 23: HAFNIUM :ASPX files created by the SYSTEM user 
+Search Method : EndPoint Activity Data
+
+objectUser:SYSTEM AND objectFilePath:*.aspx    
+
+## Example 24: HAFNIUM :New, unexpected compiled ASPX files in the Temporary ASP.NET Files directory
+Search Method : EndPoint Activity Data
+
+objectFilePath:("*\Temporary ASP.NET Files\*" AND \*aspx) AND eventSubId: 101
+
+Note: this could be noisy.
+
+
+## Example 25: HAFNIUM : another vendor reported that the threat actor used the following command:
+net group "Exchange Organization administrators" administrator /del /domain.
+
+Search Method: General
+
+ProcessName:net.exe AND CLICommand:((localgroup OR group) AND (Exchange AND /del))
+
+
+## Example 26: HAFNIUM : 7zip files were used during exfiltration
+So you can look for 7zip usage on your Exchange server
+
+Search Method : EndPoint Activity Data
+
+processCmd:7z.exe AND endpointHostName:myExchangeServer
+
+## Example 27 : HAFNIUM : Look for Trend Micro Cloud One - Workload Security and Deep Security IPS rules detections 
+Rule 1010854 - Microsoft Exchange Server Remote Code Execution Vulnerability (CVE-2021-26855)
+
+Search method : Detections
+
+ruleName:CVE-2021-26855
+
+Note: this is like example #6
+
+## Example 28 : HAFNIUM : Search for the malware name used in this campaign
+Currently known malicious web shells are being detected as Backdoor.ASP.SECCHECHECKER.A and malicious tools as HackTool.PS1.PowerCat.A
+
+Search method : Detections
+
+malName:(Backdoor.ASP.SECCHECHECKER.A OR HackTool.PS1.PowerCat.A)
+
+## END OF HAFNIUM CAMPAIGN EXAMPLE
+

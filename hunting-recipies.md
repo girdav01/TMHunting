@@ -1,4 +1,4 @@
-# Trend Micro XDR/Vision One Search Queries by examples
+# Trend Micro Vision One (XDR) Search Queries by examples
 ## Most Works in Search App or Search API (but search API does not have General, you will have to use the specific data lake (search method) and use their field names
 
 Before you begin, please read our search syntax online help here : https://docs.trendmicro.com/en-us/enterprise/trend-micro-xdr-online-help/apps/search-app/search-grammar-and-s.aspx

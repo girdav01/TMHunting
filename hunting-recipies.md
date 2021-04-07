@@ -184,14 +184,12 @@ Note : eventSubId 101 is file creation
 ## Example 23: HAFNIUM :ASPX files created by the SYSTEM user 
 Search Method : EndPoint Activity Data
 
-objectUser:SYSTEM AND objectFilePath:*.aspx    
+logonUser:(SYSTEM OR Administrator) AND objectFilePath:*.aspx    
 
-## Example 24: HAFNIUM :New, unexpected compiled ASPX files in the Temporary ASP.NET Files directory
+## Example 24: HAFNIUM :New, unexpected compiled ASPX files in aspnet_client ASP.NET Files directory
 Search Method : EndPoint Activity Data
 
-objectFilePath:("*\Temporary ASP.NET Files\*" AND \*aspx) AND eventSubId: 101
-
-Note: this could be noisy.
+objectFilePath:("*\inetpub\wwwroot\aspnet_client\*" AND \*aspx) AND eventSubId: 101
 
 
 ## Example 25: HAFNIUM : another vendor reported that the threat actor used the following command:
@@ -207,7 +205,9 @@ So you can look for 7zip usage on your Exchange server
 
 Search Method : EndPoint Activity Data
 
-processCmd:7z.exe AND endpointHostName:myExchangeServer
+processCmd:7z AND endpointHostName:myExchangeServer
+
+Note you could be more generic by hunting for the Mitre technique tags: MITREV8.T1560 Archive Collected Data
 
 ## Example 27 : HAFNIUM : Look for Trend Micro Cloud One - Workload Security and Deep Security IPS rules detections 
 Rule 1010854 - Microsoft Exchange Server Remote Code Execution Vulnerability (CVE-2021-26855)
@@ -224,6 +224,10 @@ Currently known malicious web shells are being detected as Backdoor.ASP.SECCHECH
 Search method : Detections
 
 malName:(Backdoor.ASP.SECCHECHECKER.A OR HackTool.PS1.PowerCat.A)
+
+Other detections to look for :  Backdoor.ASP.CHOPPER.ASPGIG, Trojan.ASP.SECCHECKER.A, Backdoor.ASP.WEBSHELL.UWMANM, Trojan.PS1.BOXTER.A
+
+
 
 ## END OF HAFNIUM CAMPAIGN EXAMPLE
 
